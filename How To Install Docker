@@ -1,0 +1,35 @@
+How To Install Docker on Raspberry Pi 3
+
+# Remove old versions of Docker (if they exist) and update list of installed software:
+sudo apt-get remove docker docker-engine docker.io
+sudo apt-get update
+
+# Add Docker dependencies (may be already installed):
+sudo apt-get install apt-transport-https
+sudo apt-get install ca-certificates
+sudo apt-get install curl
+sudo apt-get install gnupg2
+sudo apt-get install software-properties-common
+
+# Get the key to the official Docker software repository:
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+
+# Add the Docker software repository to the system:
+echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
+# Update the system:
+sudo apt-get update
+sudo apt-get upgrade
+reboot
+
+# See if Docker is now found in the list of software repositories:
+apt-cache search docker-ce
+
+# Install Docker:
+sudo apt-get install docker-ce
+
+# Test if Docker connects to the repository and runs OK:
+sudo docker run armhf/hello-world
+
